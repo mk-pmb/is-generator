@@ -10,11 +10,19 @@ function isGenerator (obj) {
     typeof obj.throw === 'function'
 }
 
-function * aRealGeneratorFunc () {
-  return { cannot: 'yield', 'istanbul/mocha Transformation error': {
-    index: 393, lineNumber: 19, column: 42,
-    description: 'Unexpected token }' } }
-}
+/**
+ * Have a real generator func for comparison.
+ * It `return`s because `yield` caused an istanbul/mocha
+ * Transformation error 'Unexpected token }'.
+ */
+function * aRealGeneratorFunc () { return }
+
+/**
+ * Alias the real gen-func constructor:
+ *  1. To save a few CPU cycles for that one dot notation lookup.
+ *  2. So no-one can tamper with our direct reference.
+ */
+var GenFuncCls = aRealGeneratorFunc.constructor
 
 /**
  * Check whether a function is generator.
@@ -23,7 +31,7 @@ function * aRealGeneratorFunc () {
  * @return {Boolean}
  */
 function isGeneratorFunction (fn) {
-  return (fn instanceof aRealGeneratorFunc.constructor)
+  return (fn instanceof GenFuncCls)
 }
 
 /**
@@ -31,3 +39,4 @@ function isGeneratorFunction (fn) {
  */
 var EX = module.exports = isGenerator
 EX.fn = isGeneratorFunction
+EX.GeneratorFunctionClass = GenFuncCls
