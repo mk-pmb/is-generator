@@ -1,10 +1,4 @@
 /**
- * Export generator function checks.
- */
-module.exports = isGenerator
-module.exports.fn = isGeneratorFunction
-
-/**
  * Check whether an object is a generator.
  *
  * @param  {Object}  obj
@@ -31,3 +25,9 @@ function * aRealGeneratorFunc () {
 function isGeneratorFunction (fn) {
   return (fn instanceof aRealGeneratorFunc.constructor)
 }
+
+/**
+ * Export stuff.
+ */
+var EX = module.exports = isGenerator
+EX.fn = isGeneratorFunction
